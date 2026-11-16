@@ -1,0 +1,73 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Launch Chrome browser
+a= webdriver.Chrome()
+a.maximize_window()
+w= WebDriverWait(a, 15)
+try:
+
+    # Tc01: Website open successfully
+    a.get('https://www.demoblaze.com/')
+    print("TC01: Website opened successfully")
+
+    # Tc02: Page title verified successfully
+    x=w.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="nava"]')))
+    print("TC02: Page title verified successfully")
+
+    # TC03: Verify Phones category
+    x=w.until(EC.element_to_be_clickable((By.LINK_TEXT, "Phones")))
+    x.click()
+    x=w.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#tbodyid .card")))
+    print("TC03: Phones category verified")
+
+    #TC04: Verify Laptops category
+    x=w.until(EC.element_to_be_clickable((By.LINK_TEXT, "Laptops")))
+    x.click()
+    x=w.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#tbodyid .card")))
+    print("TC04: Laptops category verified")
+
+    # TC05: Verify Monitors category
+    x=w.until(EC.element_to_be_clickable((By.LINK_TEXT, "Monitors")))
+    x.click()
+    x=w.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#tbodyid .card")))
+    print("TC05: Monitors category verified")
+
+    # TC06: Open a product
+    a.get("https://www.demoblaze.com/index.html")
+    x=w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#tbodyid .card-title a")))
+    x.click()
+    x=w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".name")))
+    print("TC06: Product details opened successfully")
+
+    # TC07: Add product to cart
+    x=w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.btn-success")))
+    x.click()
+    print("TC07: product added to the cart successfully")
+
+    # TC08: Verify cart
+    x=w.until(EC.element_to_be_clickable((By.ID, "cartur")))
+    x.click()
+    x=w.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#tbodyid tr")))
+    print("TC08: Product successfully displayed in cart")
+
+    # TC09: Verify Login popup
+    x=w.until(EC.element_to_be_clickable((By.ID, "login2")))
+    x.click()
+    print("TC09: Login popup verified")
+
+    # TC10: Verify Signup popup
+    x=w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#logInModal .btn-secondary")))
+    x.click()
+    x=w.until(EC.element_to_be_clickable((By.ID, "signin2")))
+    x.click()
+    print("TC10: Signup popup verified")
+
+    print("\nALL TESTS EXECUTED SUCCESSFULLY")
+
+except Exception as e:
+    print("TEST FAILED:", e)
+finally:
+    a.quit()
